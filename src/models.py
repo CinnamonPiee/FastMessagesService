@@ -6,6 +6,7 @@ from .database import Base
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
@@ -20,6 +21,7 @@ class User(Base):
 
 class Message(Base):
     __tablename__ = "messages"
+    __table_args__ = {"extend_existing": True}
 
     id = Column(Integer, primary_key=True, index=True)
     content = Column(Text)
