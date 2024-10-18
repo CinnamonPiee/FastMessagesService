@@ -21,14 +21,14 @@ class User(BaseModel):
 
 class MessageCreate(BaseModel):
     sender_id: int
-    recipient_id: int
+    receiver_id: int
     content: str
 
 
 class Message(BaseModel):
     id: int
     sender_id: int
-    recipient_id: int
+    receiver_id: int
     content: str
 
     class Config:

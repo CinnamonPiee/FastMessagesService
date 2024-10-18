@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <h1>WebSocket Chat</h1>
+    <input id="messageInput" type="text" placeholder="Enter your message..." />
+    <button id="sendMessageButton">Send</button>
+    <ul id="messagesList"></ul>
+
+    <script>
+        const userId = 1;
+        const websocket = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+
+        websocket.onmessage = (event) => {
+            const messagesList = document.getElementById('messagesList');
+            const newMessage = document.createElement('li');
+            newMessage.textContent = event.data;
+            messagesList.appendChild(newMessage);
+        };
+
+        document.getElementById('sendMessageButton').onclick = () => {
+            const messageInput = document.getElementById('messageInput');
+            websocket.send(messageInput.value);
+            messageInput.value = '';
+        };
+    </script>
+</body>
+</html>
