@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     db_user: str
     db_pass: str
     db_name: str
+    bot_token: str
 
     @property
     def DATABASE_URL_asyncpg(self) -> str:
