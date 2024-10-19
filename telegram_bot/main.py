@@ -17,6 +17,7 @@ async def start_command(message: types.Message):
     await message.reply("Привет! Я бот для уведомлений.")
 
 
+@dp.message()
 async def send_notification(user_id: int, text: str):
     try:
         await bot.send_message(
