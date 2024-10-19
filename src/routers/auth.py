@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from passlib.context import CryptContext
@@ -11,7 +12,7 @@ router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-@router.post("/register", response_model=User)
+@router.post("/register")
 async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
     stmt = select(UserModel).filter(UserModel.email == user.email)
     result = await db.execute(stmt)
@@ -33,10 +34,10 @@ async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
     await db.commit()
     await db.refresh(new_user)
 
-    return new_user
+    return RedirectResponse(url="/success", status_code=status.HTTP_303_SEE_OTHER)
 
 
-@router.post("/login", response_model=User)
+@router.post("/login")
 async def login(user: UserCreate, db: AsyncSession = Depends(get_db)):
     stmt = select(UserModel).filter(UserModel.email == user.email)
     result = await db.execute(stmt)
@@ -47,4 +48,4 @@ async def login(user: UserCreate, db: AsyncSession = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid credentials"
         )
 
-    return existing_user
+    return RedirectResponse(url="/success", status_code=status.HTTP_303_SEE_OTHER)
